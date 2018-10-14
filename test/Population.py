@@ -35,7 +35,7 @@ class Population:
                 return bool(1)
             
     def naturalSelection(self):
-        newDots = [DotObj]
+        newDots = []
         self.calculateFitnessSum()
         for i in range(len(self.dots)):
             #Select Parent based on fitness
