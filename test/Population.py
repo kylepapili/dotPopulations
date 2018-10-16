@@ -6,13 +6,15 @@ import random as ra
 DotObj = Dot.Dot()  # get an instance of the class
 
 class Population:
-    dots = [DotObj]
+    dots = []
     fitnessSum = 0
     generation = 1
+    bestDot = 0
+    minStep = 400
     
     
     def __init__(self):
-        for i in range(100):
+        for i in range(1000):
             self.dots.append((Dot.Dot()))
 
     def show(self):
@@ -21,6 +23,8 @@ class Population:
 
     def update(self):
         for i in range(len(self.dots)):
+            if self.dots[i].brain.step > self.minStep:
+                self.dots[i].dead = bool(1)
             self.dots[i].update()
     
     def calculateFitness(self):
@@ -31,13 +35,16 @@ class Population:
         for i in range(len(self.dots)):
             if not self.dots[i].dead and not self.dots[i].reachedGoal:
                 return bool(0)
-            else:
-                return bool(1)
+        return bool(1)
             
     def naturalSelection(self):
         newDots = []
+        self.establishBestDot()
+        self.calculateMinStep()
+        newDots.append(self.dots[self.bestDot].spawnChild())
+        newDots[0].isBestDot = bool(1)
         self.calculateFitnessSum()
-        for i in range(len(self.dots)):
+        for i in range(len(self.dots[1:])):
             #Select Parent based on fitness
             parent = self.selectParent()
             #Get Baby
@@ -64,4 +71,20 @@ class Population:
         for i in range(len(self.dots)):
             self.dots[i].brain.mutate()
             
+    def establishBestDot(self):
+        maxDot = 0
+        maxIndex = 0
+        for i in range(len(self.dots)):
+            if self.dots[i].fitness > maxDot:
+                maxDot = self.dots[i].fitness
+                maxIndex = i
+        self.bestDot = maxIndex
+        
+    def calculateMinStep(self):
+        minStep = self.minStep
+        for i in range(len(self.dots)):
+            if self.dots[i].brain.step < minStep:
+                if self.dots[i].reachedGoal:
+                    minStep = self.dots[i].brain.step
+        self.minStep = minStep
             
