@@ -23,8 +23,8 @@ class Population:
 
     def update(self):
         for i in range(len(self.dots)):
-            if self.dots[i].brain.step > self.minStep:
-                self.dots[i].dead = bool(1)
+            #if self.dots[i].brain.step > self.minStep:
+                #self.dots[i].dead = bool(1)
             self.dots[i].update()
     
     def calculateFitness(self):
@@ -36,6 +36,7 @@ class Population:
             if not self.dots[i].dead and not self.dots[i].reachedGoal:
                 return bool(0)
         return bool(1)
+    
             
     def naturalSelection(self):
         newDots = []

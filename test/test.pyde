@@ -14,15 +14,11 @@ def draw():
     ellipse(Brain.goal.x, Brain.goal.y, 10, 10)
     
     fill(0, 0, 255)
-    rect(100, 250, 250, 10)
+    rect(100, 250, 400, 10)
     
     fill(0, 0, 255)
-    rect(50, 125, 300, 10)
-    
-    fill(0, 0, 255)
-    rect(350, 100, 10, 100)
-    
-    rect(150, 0, 10, 150)
+    rect(0, 125, 250, 10)
+
 
     if(test.allDotsDead()):
         test.calculateFitness()
